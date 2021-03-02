@@ -1,0 +1,16 @@
+#!/bin/bash
+set -e
+
+create_database(){
+     psql -c "CREATE ROLE $1 LOGIN ENCRYPTED PASSWORD '$2' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;" 
+     psql -c "CREATE DATABASE $3 ENCODING UTF8;" 
+     psql -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to $1;"
+     psql -c "ALTER USER $1 WITH SUPERUSER;"
+}
+
+create_database $DATABASE_USERNAME $DATABASE_PASSWORD $DATABASE_NAME
+
+
+
+
+

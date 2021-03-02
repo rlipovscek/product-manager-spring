@@ -1,0 +1,33 @@
+version: "3"
+services:
+  compasso-db:
+    hostname: "compasso-db"
+    container_name: "compasso-db"
+    image: "postgres"
+    env_file:
+      - variables.yml
+    volumes:
+      - "./docker/createDatabase.sh:/docker-entrypoint-initdb.d/create.sh"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+
+  compasso-app:
+    hostname: "compasso-app"
+    container_name: "compasso-app"
+    image: "compasso.compasso-app:v1"
+    env_file:
+      - variables.yml
+    links:
+    - "compasso-db:compasso-db"
+    depends_on: 
+      - compasso-db
+    build: "./component"
+    ports:
+      - "9999:9999"
+    expose:
+      - "9999"
