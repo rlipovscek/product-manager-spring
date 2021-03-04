@@ -21,6 +21,19 @@ passos sem o script:
 
  `$ chmod 755 docker/createDatabase.sh`   
 
+    Erro na criação da base, rodar os seguintes comandos manuais:
+
+`$ docker exec -it compasso-db psql -U postgres`
+
+`$ CREATE ROLE usuario LOGIN ENCRYPTED PASSWORD 'senhaForte' NOSUPERUSER INHERIT NOCREATEDB NOCREATEROLE;`
+
+`$ CREATE DATABASE compasso ENCODING UTF8;`
+
+`$ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public to usuario;`
+
+`$ ALTER USER usuario WITH SUPERUSER;`
+    
+
 ### Documentação
 [Swagger](http://localhost:9999/swagger-ui.html#/)
 
